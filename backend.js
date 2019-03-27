@@ -19,7 +19,7 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/random_joke', (req, res) => {
-  res.json(randomJoke());
+  setTimeout((function() {res.json(randomJoke());}), 800);
 });
 
 app.get('/random_ten', (req, res) => {
