@@ -1,8 +1,11 @@
 // https://github.com/15Dkatz/official_joke_api
 const express = require('express');
+const delay = require('express-delay');
+
 const { randomJoke, randomTen } = require('./handler');
 
 const app = express();
+app.use(delay(200,1100));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -19,7 +22,7 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/random_joke', (req, res) => {
-  setTimeout((function() {res.json(randomJoke());}), 800);
+  res.json(randomJoke());
 });
 
 app.get('/random_ten', (req, res) => {
