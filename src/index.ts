@@ -1,6 +1,6 @@
-import { fromEvent, Subject, timer } from 'rxjs';
-import { createJokeNode, getJoke, Joke } from './utils';
-import { concatMap, startWith, switchMap, tap } from 'rxjs/operators';
+import { fromEvent, timer } from 'rxjs';
+import { createJokeNode, getJoke } from './utils';
+import { concatMap, tap } from 'rxjs/operators';
 
 const rndJokeBtn = document.getElementById('rndJokeBtn');
 const jokeStreamBtn = document.getElementById('jokeStreamBtn');
@@ -16,8 +16,7 @@ const rndJokeClickSubscription = rndJokeClick$.subscribe(joke => {
 });
 
 const jokeStreamBtn$ = fromEvent(jokeStreamBtn, 'click');
-const interval$ = timer(0, 5000);
-const intervalJoke$ = interval$.pipe(concatMap(() => getJoke()));
-jokeStreamBtn$
-  .pipe(concatMap(() => intervalJoke$))
-  .subscribe(joke => createJokeNode(joke));
+jokeStreamBtn$.subscribe(() => {
+  console.log('stream started...');
+  setInterval(() => getJoke().subscribe(joke => createJokeNode(joke)), 5000);
+});
