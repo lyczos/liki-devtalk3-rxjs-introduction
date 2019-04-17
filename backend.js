@@ -5,7 +5,7 @@ const delay = require('express-delay');
 const { randomJoke, randomTen } = require('./handler');
 
 const app = express();
-app.use(delay(200,1100));
+app.use(delay(100,300));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
