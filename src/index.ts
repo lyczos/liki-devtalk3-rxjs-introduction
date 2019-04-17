@@ -6,11 +6,15 @@ const rndJokeBtn = document.getElementById('rndJokeBtn');
 const jokeStreamBtn = document.getElementById('jokeStreamBtn');
 
 const rndJokeClick$ = fromEvent(rndJokeBtn, 'click').pipe(
-  tap(ev => console.log(ev)),
-  concatMap(() => getJoke())
+  tap(x => console.log('Tap debug', x))
 );
 
-const rndJokeClickSubscription = rndJokeClick$.subscribe(joke => {
-  console.log('joke', joke);
-  createJokeNode(joke);
+const rndJokeClickSubscription = rndJokeClick$.subscribe(ev => {
+  console.log('ev', ev);
+  getJoke().subscribe(joke => createJokeNode(joke));
 });
+
+setTimeout(() => {
+  console.log('Unsubscribe...');
+  rndJokeClickSubscription.unsubscribe();
+}, 5000);
