@@ -1,34 +1,8 @@
-import { Observable, Subscriber } from 'rxjs';
-import { apiEndpoint } from './consts';
-
 export interface Joke {
   id: number;
   punchline: string;
   setup: string;
   type: string;
-}
-
-export function observableFromHttp(url: RequestInfo, headers?: RequestInit) {
-  return new Observable((observer: Subscriber<any>) => {
-    fetch(url, headers)
-      .then(res => res.json())
-      .then(body => {
-        observer.next(body);
-        observer.complete();
-      })
-      .catch(err => {
-        observer.error(err);
-      });
-  });
-}
-
-export function getJoke(): Observable<Joke> {
-  return observableFromHttp(apiEndpoint + '/random_joke', {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
-  });
 }
 
 export function createJokeNode(joke: Joke) {
